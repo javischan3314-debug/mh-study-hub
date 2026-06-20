@@ -1,78 +1,506 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>MH Study Hub</title>
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-        .container {
-            background: #2c2c2c;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            margin: auto;
-        }
-        input, button {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
-        }
-        input {
-            background: #3a3a3a;
-            color: white;
-        }
-        button {
-            background: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #45a049;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Melbourne High Study Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-card: #111319;
+      --bg-card-soft: #171923;
+      --border: #2a2e3d;
+      --accent: #66CCFF;
+      --accent-soft: #233445;
+      --text: #E6E6E6;
+      --muted: #A0A4B8;
+      --danger: #EF5350;
+      --success: #66BB6A;
+      --warning: #FFB74D;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at top, #151827 0, #050608 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 6, 8, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .nav-title {
+      font-weight: 700;
+      color: var(--accent);
+      margin-right: 12px;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .navbar a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: 0.15s;
+    }
+    .navbar a:hover {
+      color: var(--accent);
+      border-color: var(--accent-soft);
+      background: rgba(102, 204, 255, 0.06);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 16px 40px;
+    }
+    .section {
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 20px 18px;
+      margin: 14px 0;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    }
+    .section-soft {
+      background: var(--bg-card-soft);
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+    h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    p {
+      margin: 4px 0 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    ul {
+      margin: 4px 0 8px;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    li { margin-bottom: 2px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+    .tag-accent {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(102, 204, 255, 0.06);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0 4px;
+    }
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: #111319;
+    }
+    .pill-strong {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .color-block {
+      padding: 8px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      color: #000;
+      font-weight: 600;
+      font-size: 13px;
+      max-width: 320px;
+      border: 1px solid rgba(0,0,0,0.25);
+    }
+    .color-block.dark-text { color: #FFF; }
+    .code-box {
+      background: #05070c;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      border: 1px solid #262a3a;
+      color: #d0d3e6;
+      margin-top: 6px;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 10px;
+    }
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; }
+      .navbar { justify-content: flex-start; }
+      .nav-title { margin-bottom: 4px; }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>MH Study Hub</h1>
+  <div class="navbar">
+    <div class="nav-title">🎓 MH • Study Hub</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#timetable">Timetable</a>
+      <a href="#routine">Routine</a>
+      <a href="#program">6‑Month Plan</a>
+      <a href="#mockexam">Mock Exam</a>
+      <a href="#maths">Maths Pack</a>
+      <a href="#reasoning">Reasoning</a>
+      <a href="#writing">Writing</a>
+      <a href="#vocab">Vocab</a>
+      <a href="#checklists">Checklists</a>
+      <a href="#parents">Parents</a>
+      <a href="#mindset">Mindset</a>
+    </div>
+  </div>
 
-    <div id="loginBox" class="container">
-        <h2>Login</h2>
-        <input id="username" type="text" placeholder="Enter username">
-        <input id="password" type="password" placeholder="Enter password">
-        <button onclick="login()">Login</button>
-        <p id="error" style="color: red;"></p>
+  <div class="container">
+
+    <!-- HOME / BANNER -->
+    <div class="section section-soft" id="home">
+      <h1>🔥 Melbourne High Study Hub</h1>
+      <p>Your personal selective‑entry command centre — timetable, routines, mock exams, mastery plans, and mindset in one place.</p>
+      <div class="pill-row">
+        <span class="pill pill-strong">Dark Mode</span>
+        <span class="pill">Compass‑style Timetable</span>
+        <span class="pill">Mock Exam</span>
+        <span class="pill">200 Maths Qs</span>
+        <span class="pill">Reasoning Workbook</span>
+        <span class="pill">Writing Templates</span>
+        <span class="pill">Parent View</span>
+      </div>
     </div>
 
-    <div id="contentBox" class="container hidden">
-        <h2>Welcome to MH Study Hub</h2>
-        <p>Here is your study content!</p>
+    <!-- TIMETABLE -->
+    <div class="section" id="timetable">
+      <h2>📅 Weekly Compass Timetable</h2>
+      <p>Use this as your core weekly structure. You can recreate it in Compass, Google Sheets, or on paper.</p>
+      <div class="code-box">
+P1 — 🎷 Saxophone — #C77DFF  
+P2 — 🧠 School — #BDBDBD  
+P3 — 🏊 Swimming — #4FC3F7  
+P4 — 📘 Reading — #81D4FA  
+P5 — 🏃 Running — #66BB6A  
+P6 — 📝 Workbook — #FFF176  
+P7 — 🔍 Revision — #FFB74D  
+P8 — 🌙 Free Time — #E0E0E0
+      </div>
+      <p style="margin-top:6px;">You can extend this to Saturday/Sunday with extra blocks for 🧮 Selective Maths, 📄 Past Papers, 🎓 Tutoring, and ♟️ Chess.</p>
     </div>
 
-    <script>
-        function login() {
-            let user = document.getElementById("username").value;
-            let pass = document.getElementById("password").value;
+    <!-- COLOUR KEY -->
+    <div class="section" id="colors">
+      <h2>🎨 Colour Key Legend</h2>
+      <p>Use these HEX colours to match subjects across your timetable, posters, and digital planner.</p>
+      <div class="two-col">
+        <div>
+          <div class="color-block" style="background:#C77DFF">🎷 Saxophone — #C77DFF</div>
+          <div class="color-block" style="background:#BDBDBD">🧠 School — #BDBDBD</div>
+          <div class="color-block" style="background:#4FC3F7">🏊 Swimming — #4FC3F7</div>
+          <div class="color-block" style="background:#81D4FA">📘 Reading — #81D4FA</div>
+          <div class="color-block" style="background:#66BB6A">🏃 Running — #66BB6A</div>
+          <div class="color-block" style="background:#FFF176">📝 Workbook — #FFF176</div>
+          <div class="color-block" style="background:#FFB74D">🔍 Revision — #FFB74D</div>
+          <div class="color-block" style="background:#E0E0E0">🌙 Free Time — #E0E0E0</div>
+        </div>
+        <div>
+          <div class="color-block" style="background:#EF5350">🧮 Selective Maths — #EF5350</div>
+          <div class="color-block" style="background:#F48FB1">✍️ Writing — #F48FB1</div>
+          <div class="color-block" style="background:#FB8C00">🔧 Mistake Correction — #FB8C00</div>
+          <div class="color-block" style="background:#9575CD">🎹 Piano — #9575CD</div>
+          <div class="color-block" style="background:#26A69A">🧩 Reasoning — #26A69A</div>
+          <div class="color-block" style="background:#1E88E5">📄 Past Papers — #1E88E5</div>
+          <div class="color-block" style="background:#8E24AA">🎼 Instrument Practice — #8E24AA</div>
+          <div class="color-block dark-text" style="background:#424242">♟️ Chess — #424242</div>
+        </div>
+      </div>
+    </div>
 
-            if (user === "mh" && pass === "study") {
-                document.getElementById("loginBox").classList.add("hidden");
-                document.getElementById("contentBox").classList.remove("hidden");
-            } else {
-                document.getElementById("error").innerText = "Incorrect username or password.";
-            }
-        }
-    </script>
+    <!-- DAILY ROUTINE -->
+    <div class="section" id="routine">
+      <h2>⏱ Daily Micro‑Routine</h2>
+      <ul>
+        <li><strong>Morning:</strong> 🎷 Saxophone, 🏃 Running (some days), 🧠 School</li>
+        <li><strong>After School:</strong> 🏊 Swimming / 🎹 Piano / 🎓 Tutoring (depending on day)</li>
+        <li><strong>Evening Study Block:</strong>  
+          🧮 Maths (20 min) → 📘 Reading (20 min) → ✍️ Writing (20 min) → 🧩 Reasoning (20 min) → 📝 Workbook (20 min) → 🔧 Mistake Correction (10 min) → 🌙 Free Time
+        </li>
+      </ul>
+      <p>This is the rhythm of a top selective‑entry student: short, focused blocks instead of endless cramming.</p>
+    </div>
 
+    <!-- 6-MONTH PROGRAM -->
+    <div class="section" id="program">
+      <h2>📘 6‑Month Melbourne High Mastery Program</h2>
+      <h3>Months 1–2 — Foundation</h3>
+      <ul>
+        <li>Build reading stamina (3–4 sessions/week)</li>
+        <li>Core maths practice (2 sets/week + corrections)</li>
+        <li>Reasoning basics (2 sets/week)</li>
+        <li>1 writing piece/week</li>
+        <li>Focus on routine and consistency</li>
+      </ul>
+      <h3>Months 3–4 — Development</h3>
+      <ul>
+        <li>Harder selective maths (3 sets/week, 1 timed)</li>
+        <li>Timed reasoning sets</li>
+        <li>Writing + rewrites with improvements</li>
+        <li>Start past paper sections (1/week)</li>
+      </ul>
+      <h3>Month 5 — Pressure Training</h3>
+      <ul>
+        <li>Timed maths, reading, reasoning sections</li>
+        <li>2 timed writing tasks/week</li>
+        <li>1 full mock exam/week</li>
+      </ul>
+      <h3>Month 6 — Exam Simulation</h3>
+      <ul>
+        <li>2 full mock exams/week</li>
+        <li>Only light revision + mistake correction</li>
+        <li>No new content, focus on sleep + calm</li>
+      </ul>
+    </div>
+
+    <!-- MOCK EXAM -->
+    <div class="section" id="mockexam">
+      <h2>🧪 Full Mock Exam (Maths • Reading • Writing • Reasoning)</h2>
+      <p>Use this as a full exam simulation at home.</p>
+      <ul>
+        <li><strong>Section A — Maths:</strong> 20 questions, 40 minutes</li>
+        <li><strong>Section B — Reading:</strong> 10 questions, 30 minutes</li>
+        <li><strong>Section C — Writing:</strong> 1 of 3 prompts, 20 minutes</li>
+        <li><strong>Section D — Reasoning:</strong> 20 questions, 30 minutes</li>
+      </ul>
+      <p>Maths covers fractions, ratios, percentages, algebra, area, speed, probability, sequences. Reading passage theme: determination and calm focus. Writing prompts like “The moment everything changed.” Reasoning includes patterns, analogies, logic, and sequences.</p>
+      <p><strong>Answer keys:</strong> you already have worked solutions for the sample maths and reading questions; you can mark writing with the rubric below.</p>
+    </div>
+
+    <!-- MATHS PACK -->
+    <div class="section" id="maths">
+      <h2>➗ 200‑Question Maths Pack</h2>
+      <p>Use this as your long‑term drill bank.</p>
+      <ul>
+        <li>1–20: Number & operations</li>
+        <li>21–40: Fractions</li>
+        <li>41–60: Decimals</li>
+        <li>61–80: Percentages</li>
+        <li>81–100: Ratios</li>
+        <li>101–120: Algebra</li>
+        <li>121–140: Geometry</li>
+        <li>141–160: Measurement</li>
+        <li>161–180: Probability</li>
+        <li>181–200: Word problems</li>
+      </ul>
+      <p>Track accuracy each week and focus on the topics where you miss the most.</p>
+    </div>
+
+    <!-- REASONING -->
+    <div class="section" id="reasoning">
+      <h2>🧩 Reasoning Pattern Workbook</h2>
+      <ul>
+        <li><strong>Number patterns:</strong> alternating, doubling/halving, prime jumps, square/cube sequences.</li>
+        <li><strong>Verbal:</strong> synonyms, antonyms, analogies, categories, odd‑one‑out.</li>
+        <li><strong>Non‑verbal:</strong> rotation, reflection, shading, shape addition/subtraction, progressive changes.</li>
+        <li><strong>Logic:</strong> deduction, ordering, true/false tables, grid logic, conditional reasoning.</li>
+        <li><strong>Mixed drills:</strong> exam‑style sets with step‑by‑step solutions.</li>
+      </ul>
+    </div>
+
+    <!-- WRITING -->
+    <div class="section" id="writing">
+      <h2>✍️ Writing Templates & Rubric</h2>
+      <h3>Narrative Template (20 minutes)</h3>
+      <ul>
+        <li>Paragraph 1: Hook + setting + character</li>
+        <li>Paragraph 2: Problem / conflict</li>
+        <li>Paragraph 3: Turning point / decision</li>
+        <li>Paragraph 4: Resolution + reflection</li>
+      </ul>
+      <h3>Persuasive Template</h3>
+      <ul>
+        <li>Intro: clear position</li>
+        <li>Body 1: reason + example</li>
+        <li>Body 2: reason + example</li>
+        <li>Conclusion: restate + strong final line</li>
+      </ul>
+      <h3>Descriptive Template</h3>
+      <ul>
+        <li>Use 5 senses + emotion</li>
+        <li>End with a “zoom‑out” sentence</li>
+      </ul>
+      <h3>Marking Rubric (/10)</h3>
+      <ul>
+        <li>Content: /4 — strength of ideas and message</li>
+        <li>Structure: /2 — clear beginning, middle, end</li>
+        <li>Language: /2 — vocabulary + sentence variety</li>
+        <li>Mechanics: /2 — spelling, punctuation, grammar</li>
+      </ul>
+    </div>
+
+    <!-- VOCAB -->
+    <div class="section" id="vocab">
+      <h2>🔤 Selective‑Entry Vocabulary Pack</h2>
+      <p><strong>Tier 1 — Core (20 words)</strong></p>
+      <p>reluctant, cautious, determined, hesitant, inevitable, fragile, ambitious, resilient, tremble, dismay, triumph, resolve, consequence, anticipate, perplexed, sincere, vivid, subtle, defiant, relieved</p>
+      <p><strong>Tier 2 & 3 — High‑value & Elite (examples)</strong></p>
+      <p>adversity, apprehensive, bewildered, compassion, diligent, emerge, endure, fleeting, hinder, ignite, immense, meticulous, obscure, profound, scarce, solitary, tentative, thrive, vulnerable, alleviate, ambiguous, audacious, coherent, deliberate, elated, formidable, futile, imminent, intricate, lucid, melancholy, mundane, pivotal, plausible, serene, skeptical, spontaneous…</p>
+      <p>Use them in your writing pieces and reading notes.</p>
+    </div>
+
+    <!-- CHECKLISTS -->
+    <div class="section" id="checklists">
+      <h2>📋 Checklists & Trackers</h2>
+
+      <h3>Weekly Revision Checklist</h3>
+      <div class="code-box">
+📘 Reading  
+☐ 3–5 reading sessions  
+☐ 1 comprehension practice  
+
+🧮 Maths  
+☐ 2 selective maths sets  
+☐ 1 timed section  
+☐ Mistake correction done  
+
+✍️ Writing  
+☐ 1 writing piece  
+☐ 1 rewrite with improvements  
+
+🧩 Reasoning  
+☐ 2 reasoning sets  
+☐ 1 puzzle or chess session  
+
+📄 Past Papers  
+☐ 1 past paper section  
+☐ Errors reviewed  
+
+🎓 Tutoring  
+☐ Homework completed  
+☐ Notes reviewed  
+
+🧠 Mindset  
+☐ One rest day  
+☐ One fun activity
+      </div>
+
+      <h3>Night‑Before‑Exam Checklist</h3>
+      <div class="code-box">
+✔ Light revision only  
+✔ Review writing templates & reasoning patterns  
+✔ Pack pencils, eraser, sharpener, water bottle  
+✔ Lay out clothes  
+✔ Set two alarms  
+✔ No screens 1 hour before bed  
+✔ Stretch + relax  
+✔ Sleep early (9:00–9:30 PM)
+      </div>
+    </div>
+
+    <!-- PARENTS -->
+    <div class="section" id="parents">
+      <h2>👨‍👩‍👦 Parent Summary & Progress Report</h2>
+
+      <h3>Parent Summary</h3>
+      <p>Your plan is structured, balanced, and focused on long‑term growth, not just cramming. It includes reading, maths, writing, reasoning, past papers, music, sport, and rest.</p>
+
+      <h3>Parent Progress Report Template</h3>
+      <div class="code-box">
+Student: ______________________   Week of: ______________________  
+
+READING  
+✔ Sessions completed: ______  
+✔ Comprehension: Strong / Good / Needs work  
+
+MATHS  
+✔ Sets completed: ______  
+✔ Timed work: Yes / No  
+✔ Accuracy: ______%  
+
+WRITING  
+✔ Weekly piece completed: Yes / No  
+✔ Rewrite completed: Yes / No  
+✔ Strengths: __________________  
+✔ Improvements: _______________  
+
+REASONING  
+✔ Sets completed: ______  
+✔ Accuracy: ______%  
+
+PAST PAPERS  
+✔ Sections completed: ______  
+✔ Mistake correction done: Yes / No  
+
+WELLBEING  
+✔ Sleep: Good / Fair / Poor  
+✔ Stress level: Low / Medium / High  
+✔ Free time taken: Yes / No  
+
+COMMENTS:
+__________________________________________
+__________________________________________
+      </div>
+    </div>
+
+    <!-- MINDSET -->
+    <div class="section" id="mindset">
+      <h2>🧠 Melbourne High Mindset</h2>
+      <div class="code-box">
+Consistency beats talent.  
+Mistakes are data, not failure.  
+Slow progress is still progress.  
+Hard work compounds.  
+You don’t need to be perfect — just prepared.  
+
+Repeat daily:  
+“I show up. I improve. I succeed.”
+      </div>
+    </div>
+
+  </div>
 </body>
 </html>
+

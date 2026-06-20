@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MH Study Hub</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            background: #2c2c2c;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            margin: auto;
+        }
+        input, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+        input {
+            background: #3a3a3a;
+            color: white;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>MH Study Hub</h1>
+
+    <div id="loginBox" class="container">
+        <h2>Login</h2>
+        <input id="username" type="text" placeholder="Enter username">
+        <input id="password" type="password" placeholder="Enter password">
+        <button onclick="login()">Login</button>
+        <p id="error" style="color: red;"></p>
+    </div>
+
+    <div id="contentBox" class="container hidden">
+        <h2>Welcome to MH Study Hub</h2>
+        <p>Here is your study content!</p>
+    </div>
+
+    <script>
+        function login() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+
+            if (user === "mh" && pass === "study") {
+                document.getElementById("loginBox").classList.add("hidden");
+                document.getElementById("contentBox").classList.remove("hidden");
+            } else {
+                document.getElementById("error").innerText = "Incorrect username or password.";
+            }
+        }
+    </script>
+
+</body>
+</html>
